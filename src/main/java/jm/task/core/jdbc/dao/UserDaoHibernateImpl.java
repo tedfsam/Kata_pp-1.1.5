@@ -2,6 +2,7 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.Util;
 import jm.task.core.jdbc.model.User;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -40,6 +41,7 @@ public class UserDaoHibernateImpl implements UserDao {
 
     @Override
     public void saveUser(String name, String lastName, byte age) {
+
         Session session = sessionFactory.openSession();
         try {
 
@@ -72,7 +74,7 @@ public class UserDaoHibernateImpl implements UserDao {
         List<User> userList = new ArrayList<>();
         try (Session session = sessionFactory.getCurrentSession()) {
             session.beginTransaction();
-            userList = session.createQuery("FROM users", User.class).list();
+            userList = session.createQuery("FROM User").getResultList();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
